@@ -1,0 +1,37 @@
+# AdsCompetitor Project Requirements
+
+# AI Generation Layer Dependencies
+google-generativeai>=0.3.0
+
+# Notification Layer Dependencies
+twilio>=8.0.0
+sendgrid>=6.10.0
+
+# Web Framework
+flask>=2.3.0
+flask-cors>=4.0.0
+
+# For testing (optional)
+pytest>=6.0.0
+pytest-cov>=2.0.0
+
+# For development (optional)
+black>=21.0.0
+flake8>=3.8.0
+mypy>=0.800
+
+# For environment variable management (optional)
+python-dotenv>=1.0.0
+
+# For background job queue
+redis>=5.0.0
+rq>=1.15.0
+
+# For PostgreSQL database
+psycopg2-binary>=2.9.0
+
+# For competitor intelligence scraping
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+googlesearch-python>=1.2.3
+lxml>=4.9.0

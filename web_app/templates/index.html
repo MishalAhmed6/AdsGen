@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdsCompetitor - Generate & Send Ads</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 AdsCompetitor</h1>
+            <p class="subtitle">Generate AI-Powered Ads & Send to Users Automatically</p>
+        </header>
+
+        <!-- Progress Steps -->
+        <div class="progress-steps">
+            <div class="step active" data-step="1">
+                <div class="step-number">1</div>
+                <div class="step-label">Competitor Info</div>
+                <div class="step-sublabel">Enter brand details</div>
+            </div>
+            <div class="step" data-step="2">
+                <div class="step-number">2</div>
+                <div class="step-label">Generate Ads</div>
+                <div class="step-sublabel">AI-powered content</div>
+            </div>
+            <div class="step" data-step="3">
+                <div class="step-number">3</div>
+                <div class="step-label">Add Recipients</div>
+                <div class="step-sublabel">Add contacts</div>
+            </div>
+            <div class="step" data-step="4">
+                <div class="step-number">4</div>
+                <div class="step-label">Review & Send</div>
+                <div class="step-sublabel">Final confirmation</div>
+            </div>
+        </div>
+
+        <!-- Step 1: Competitor Information -->
+        <div id="step1" class="step-content active">
+            <div class="card">
+                <h2>Step 1: Competitor Information</h2>
+                <p class="step-subtitle">Enter your brand and competitor details to generate targeted ads</p>
+                <form id="competitorForm">
+                    <div class="form-group">
+                        <label for="our_brand">Your Company/Brand Name *</label>
+                        <input type="text" id="our_brand" name="our_brand" 
+                               placeholder="e.g., Tony's Pizza Shop" required>
+                        <small>Enter your own business name</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="competitor_name">Competitor Name *</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="competitor_name" name="competitor_name" 
+                                   placeholder="e.g., Pizza Hut" required style="flex: 1;">
+                            <button type="button" onclick="parseCompetitorURL()" class="btn btn-secondary" style="white-space: nowrap;">
+                                🔗 Parse from URL
+                            </button>
+                        </div>
+                        <input type="url" id="competitor_url" name="competitor_url" 
+                               placeholder="Or paste competitor URL here (optional)" 
+                               style="margin-top: 8px; display: none;">
+                        <small>Enter competitor name or paste their website URL to auto-extract info</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ad_copy">Competitor Ad Copy</label>
+                        <textarea id="ad_copy" name="ad_copy" rows="3" 
+                                  placeholder="Enter competitor's ad copy (optional)"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="industry">Industry Preset</label>
+                        <select id="industry" name="industry" class="form-select" style="width: 100%;">
+                            <option value="">Select an industry (optional)</option>
+                            <option value="pizza">🍕 Pizza / Restaurant</option>
+                            <option value="salon">💇 Salon / Beauty</option>
+                            <option value="real_estate">🏠 Real Estate</option>
+                            <option value="gym">💪 Gym / Fitness</option>
+                            <option value="automotive">🚗 Automotive</option>
+                            <option value="retail">🛍️ Retail / Shopping</option>
+                            <option value="healthcare">⚕️ Healthcare</option>
+                            <option value="education">🎓 Education</option>
+                            <option value="technology">💻 Technology</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <small>Select an industry preset to optimize ad generation</small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="audience_type">Audience Type</label>
+                            <select id="audience_type" name="audience_type" class="form-select" style="width: 100%;">
+                                <option value="">Select audience (optional)</option>
+                                <option value="local">Local Community</option>
+                                <option value="young_adults">Young Adults (18-34)</option>
+                                <option value="families">Families</option>
+                                <option value="professionals">Professionals</option>
+                                <option value="seniors">Seniors (55+)</option>
+                                <option value="students">Students</option>
+                                <option value="general">General Public</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="offer_type">Offer Type</label>
+                            <select id="offer_type" name="offer_type" class="form-select" style="width: 100%;">
+                                <option value="">Select offer (optional)</option>
+                                <option value="discount">Discount / Sale</option>
+                                <option value="promotion">Special Promotion</option>
+                                <option value="free_trial">Free Trial</option>
+                                <option value="limited_time">Limited Time Offer</option>
+                                <option value="new_arrival">New Arrival / Launch</option>
+                                <option value="event">Event / Grand Opening</option>
+                                <option value="information">Informational</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="goal">Campaign Goal</label>
+                        <select id="goal" name="goal" class="form-select" style="width: 100%;">
+                            <option value="">Select goal (optional)</option>
+                            <option value="bookings">📅 Drive Bookings / Appointments</option>
+                            <option value="website_visits">🌐 Website Visits</option>
+                            <option value="phone_calls">📞 Phone Calls</option>
+                            <option value="foot_traffic">🚶 Foot Traffic / In-Store Visits</option>
+                            <option value="awareness">📢 Brand Awareness</option>
+                            <option value="sales">💰 Direct Sales</option>
+                            <option value="leads">📋 Generate Leads</option>
+                        </select>
+                        <small>What do you want to achieve with this campaign?</small>
+                    </div>
+
+                    <div class="form-row">
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location" 
+                               placeholder="e.g., Downtown Manhattan, Brooklyn, Los Angeles">
+                        <small>Enter the city, neighborhood, or area name</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="zipcode">ZIP Code *</label>
+                        <input type="text" id="zipcode" name="zipcode" 
+                               placeholder="e.g., 10001, 90210, 60601" required>
+                        <small>Enter a 5-digit ZIP code for location targeting</small>
+                    </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hashtags">Hashtags (comma-separated)</label>
+                        <input type="text" id="hashtags" name="hashtags" 
+                               placeholder="e.g., #pizza, #delivery, #local, #foodie">
+                        <small>Enter hashtags separated by commas (with or without # symbol)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="num_variations">Number of Ad Variations</label>
+                        <input type="number" id="num_variations" name="num_variations" 
+                               min="1" max="10" value="3" class="form-input-small">
+                        <small>How many different ad variations to generate (1-10)</small>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="generateBtn">
+                            <span class="btn-text">Generate Ads</span>
+                            <span class="btn-loader" style="display: none;">
+                                <span class="spinner-small"></span> Generating...
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Step 2: Generated Ads -->
+        <div id="step2" class="step-content">
+            <div class="card">
+                <h2>Step 2: Generated Ads</h2>
+                <p class="step-subtitle">Review and customize your AI-generated ad variations</p>
+                <div id="adsContainer" class="ads-container">
+                    <div class="loading">Generating ads with AI... Please wait.</div>
+                </div>
+                <div class="step-navigation">
+                    <button id="backToStep1" class="btn btn-secondary">← Back</button>
+                    <button id="continueToUsers" class="btn btn-primary" style="display:none;">Next: Add Users →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Add Users -->
+        <div id="step3" class="step-content">
+            <div class="card">
+                <h2>Step 3: Add Users</h2>
+                <p class="step-subtitle">Add recipients for SMS and email campaigns</p>
+                
+                <!-- SMS Users -->
+                <div class="user-section">
+                    <h3>📱 SMS Recipients (Phone Numbers)</h3>
+                    <div class="user-input-group">
+                        <input type="text" id="smsName" placeholder="Name (optional)" class="input-small">
+                        <input type="text" id="smsPhone" placeholder="Phone: +1234567890" class="input-medium">
+                        <input type="text" id="smsTags" placeholder="Tags (comma-separated)" class="input-small" style="display: none;">
+                        <button type="button" onclick="addSMSUser()" class="btn btn-secondary">Add</button>
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <button type="button" onclick="toggleSMSTags()" class="btn btn-link" style="font-size: 0.9em;">🏷️ Add Tags</button>
+                    </div>
+                    <div class="bulk-import-section">
+                        <button type="button" onclick="showBulkSMSImport()" class="btn btn-link">📋 Import CSV or paste multiple numbers</button>
+                        <div id="bulkSMSImport" class="bulk-import-panel" style="display: none;">
+                            <textarea id="bulkSMSInput" placeholder="Paste phone numbers (one per line or comma-separated)&#10;Format: +1234567890 or 1234567890&#10;Or: Name, Phone (CSV format)&#10;Example:&#10;John Doe, +1234567890&#10;Jane Smith, +1987654321"></textarea>
+                            <div class="bulk-import-actions">
+                                <input type="file" id="smsCSVFile" accept=".csv" style="display: none;" onchange="handleSMSFileUpload(event)">
+                                <button type="button" onclick="document.getElementById('smsCSVFile').click()" class="btn btn-secondary">📁 Upload CSV</button>
+                                <button type="button" onclick="processBulkSMS()" class="btn btn-primary">Import</button>
+                                <button type="button" onclick="hideBulkSMSImport()" class="btn btn-link">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="smsUsersList" class="users-list"></div>
+                </div>
+
+                <!-- Email Users -->
+                <div class="user-section">
+                    <h3>📧 Email Recipients</h3>
+                    <div class="user-input-group">
+                        <input type="text" id="emailName" placeholder="Name (optional)" class="input-small">
+                        <input type="email" id="emailAddress" placeholder="Email: user@example.com" class="input-medium">
+                        <input type="text" id="emailTags" placeholder="Tags (comma-separated)" class="input-small" style="display: none;">
+                        <button type="button" onclick="addEmailUser()" class="btn btn-secondary">Add</button>
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <button type="button" onclick="toggleEmailTags()" class="btn btn-link" style="font-size: 0.9em;">🏷️ Add Tags</button>
+                    </div>
+                    <div class="bulk-import-section">
+                        <button type="button" onclick="showBulkEmailImport()" class="btn btn-link">📋 Import CSV or paste multiple emails</button>
+                        <div id="bulkEmailImport" class="bulk-import-panel" style="display: none;">
+                            <textarea id="bulkEmailInput" placeholder="Paste email addresses (one per line or comma-separated)&#10;Or: Name, Email (CSV format)&#10;Example:&#10;John Doe, john@example.com&#10;Jane Smith, jane@example.com"></textarea>
+                            <div class="bulk-import-actions">
+                                <input type="file" id="emailCSVFile" accept=".csv" style="display: none;" onchange="handleEmailFileUpload(event)">
+                                <button type="button" onclick="document.getElementById('emailCSVFile').click()" class="btn btn-secondary">📁 Upload CSV</button>
+                                <button type="button" onclick="processBulkEmail()" class="btn btn-primary">Import</button>
+                                <button type="button" onclick="hideBulkEmailImport()" class="btn btn-link">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="emailUsersList" class="users-list"></div>
+                </div>
+
+                <div class="user-summary">
+                    <h4>Summary:</h4>
+                    <p>📱 SMS: <span id="smsCount">0</span> | 📧 Email: <span id="emailCount">0</span> | Total: <span id="totalCount">0</span></p>
+                </div>
+
+                <div class="step-navigation">
+                    <button id="backToStep2" class="btn btn-secondary">← Back</button>
+                    <button id="continueToStep4" class="btn btn-primary" disabled>Next: Review & Send →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Results -->
+        <div id="step4" class="step-content">
+            <div class="card">
+                <h2>Step 4: Summary & Send</h2>
+                <p class="step-subtitle">Review your campaign summary and send ads to recipients</p>
+                <div id="resultsContainer" class="results-container">
+                    <div id="summaryContainer" class="summary-container" style="display: none;">
+                        <div class="summary-card">
+                            <h3>Campaign Summary</h3>
+                            <div class="summary-stats">
+                                <div class="summary-stat">
+                                    <div class="summary-value" id="summaryTotalSMS">0</div>
+                                    <div class="summary-label">Total SMS</div>
+                                </div>
+                                <div class="summary-stat">
+                                    <div class="summary-value" id="summaryTotalEmail">0</div>
+                                    <div class="summary-label">Total Emails</div>
+                                </div>
+                                <div class="summary-stat">
+                                    <div class="summary-value" id="summaryChannels">0</div>
+                                    <div class="summary-label">Channels</div>
+                                </div>
+                                <div class="summary-stat">
+                                    <div class="summary-value" id="summaryTotalAds">0</div>
+                                    <div class="summary-label">Ad Variations</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                                <button id="sendAdsNowBtn" class="btn btn-primary btn-large" onclick="confirmAndSendAds('now')">
+                                    <span class="btn-text">Send Ads Now</span>
+                                    <span class="btn-loader" style="display: none;">
+                                        <span class="spinner-small"></span> Sending...
+                                    </span>
+                                </button>
+                                <button id="sendAdsLaterBtn" class="btn btn-secondary btn-large" onclick="showScheduleDialog()">
+                                    📅 Schedule for Later
+                                </button>
+                                <button id="previewCampaignBtn" class="btn btn-secondary btn-large" onclick="showCampaignPreview()">
+                                    👁️ Preview Campaign
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Schedule Dialog -->
+                    <div id="scheduleDialog" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(4px);" onclick="if(event.target === this) hideScheduleDialog()">
+                        <div class="modal-content" style="background: white; padding: 0; border-radius: 16px; max-width: 500px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.3);" onclick="event.stopPropagation()">
+                            <div style="padding: 24px 30px; border-bottom: 2px solid #e9ecef; display: flex; justify-content: space-between; align-items: center;">
+                                <h3 style="margin: 0; color: #ff6600; font-size: 1.5em; font-weight: bold;">Schedule Campaign</h3>
+                                <button class="modal-close-btn" onclick="hideScheduleDialog()" style="background: #f8f9fa; border: 2px solid #dee2e6; border-radius: 50%; width: 32px; height: 32px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #6c757d; transition: all 0.2s; line-height: 1; padding: 0;">&times;</button>
+                            </div>
+                            <div style="padding: 30px;">
+                                <div class="form-group">
+                                    <label for="scheduleDate">Date *</label>
+                                    <input type="date" id="scheduleDate" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="scheduleTime">Time *</label>
+                                    <input type="time" id="scheduleTime" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="scheduleTimezone">Timezone *</label>
+                                    <select id="scheduleTimezone" class="form-select" required>
+                                        <option value="">Select timezone...</option>
+                                        <option value="America/New_York">Eastern Time (ET) - New York</option>
+                                        <option value="America/Chicago">Central Time (CT) - Chicago</option>
+                                        <option value="America/Denver">Mountain Time (MT) - Denver</option>
+                                        <option value="America/Los_Angeles">Pacific Time (PT) - Los Angeles</option>
+                                        <option value="America/Phoenix">Arizona Time (MST) - Phoenix</option>
+                                        <option value="America/Anchorage">Alaska Time (AKT) - Anchorage</option>
+                                        <option value="Pacific/Honolulu">Hawaii Time (HST) - Honolulu</option>
+                                        <option value="UTC">UTC (Coordinated Universal Time)</option>
+                                        <option value="Europe/London">GMT/UTC - London</option>
+                                        <option value="Europe/Paris">Central European Time (CET) - Paris</option>
+                                        <option value="Europe/Berlin">Central European Time (CET) - Berlin</option>
+                                        <option value="Asia/Dubai">Gulf Standard Time (GST) - Dubai</option>
+                                        <option value="Asia/Kolkata">India Standard Time (IST) - Mumbai</option>
+                                        <option value="Asia/Shanghai">China Standard Time (CST) - Shanghai</option>
+                                        <option value="Asia/Tokyo">Japan Standard Time (JST) - Tokyo</option>
+                                        <option value="Australia/Sydney">Australian Eastern Time (AET) - Sydney</option>
+                                    </select>
+                                    <small>Select the timezone for your scheduled time</small>
+                                </div>
+                                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e9ecef;">
+                                    <button onclick="hideScheduleDialog()" class="btn btn-secondary">Cancel</button>
+                                    <button onclick="confirmAndSendAds('scheduled')" class="btn btn-primary">Schedule</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="sendingResults" class="sending-results"></div>
+                </div>
+                <div class="step-navigation" id="resultsNavigation" style="display: none;">
+                    <button id="startOverBtn" class="btn btn-secondary" onclick="startOver()">Start Over</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
