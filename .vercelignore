@@ -1,0 +1,84 @@
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Development and testing files
+examples/
+*.log
+app.log
+test_*.py
+*_test.py
+tests/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Development tools
+.git/
+.gitignore
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Documentation
+*.md
+!README.md
+DATABASE_SETUP.md
+README_DOCKER.md
+
+# Docker files (not needed for Vercel)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Example and demo files
+demo_user_input.py
+check_env_config.py
+test_api_key.py
+verify_sendgrid.py
+setup_twilio.py
+run_web_app.py
+run_worker.py
+start_server.py
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+database/schema.sql
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+temp/
+tmp/
+
+# SSH keys (should not be in repo anyway)
+*.key
+*.pem
+name.txt
+name.txt.pub
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+

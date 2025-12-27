@@ -1,34 +1,28 @@
-# AdsCompetitor Project Requirements
+# AdsCompetitor Project Requirements - Production
+# Note: Some dependencies are optional and the app will work without them
 
 # AI Generation Layer Dependencies
 google-generativeai>=0.3.0
 
-# Notification Layer Dependencies
+# Notification Layer Dependencies (optional - app works without them)
 twilio>=8.0.0
 sendgrid>=6.10.0
 
-# Web Framework
+# Web Framework (required)
 flask>=2.3.0
 flask-cors>=4.0.0
 
-# For testing (optional)
-pytest>=6.0.0
-pytest-cov>=2.0.0
-
-# For development (optional)
-black>=21.0.0
-flake8>=3.8.0
-mypy>=0.800
-
-# For environment variable management (optional)
+# For environment variable management
 python-dotenv>=1.0.0
 
-# For background job queue
-redis>=5.0.0
-rq>=1.15.0
+# For background job queue (optional - app has fallback)
+# Uncomment if you need background jobs
+# redis>=5.0.0
+# rq>=1.15.0
 
-# For PostgreSQL database
-psycopg2-binary>=2.9.0
+# For PostgreSQL database (optional - app works without it)
+# Uncomment if you need database persistence
+# psycopg2-binary>=2.9.0
 
 # For competitor intelligence scraping
 requests>=2.31.0
